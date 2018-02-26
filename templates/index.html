@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}我的个人博客{% endblock %}</title>
+    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/pub.css' %}">
+    <script type="text/javascript" src="{% static 'js/pub.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    {% block link %}
+    <link type="text/css" rel="stylesheet" href="{% static 'css/index.css' %}">
+    <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+    {% endblock %}
+</head>
+<body>
+    <div class="top_bar">
+        <div class="wel">
+            欢迎来到博客平台
+        </div>
+
+        <!-- 判断是否登录 -->
+        {% if not request.user.is_authenticated %}
+            <div class="login">
+                <a onclick="window.location.href='/login'">登录</a>
+            </div>
+        {% else %}
+            <div class="login">
+                <img class="avatar" src="{{ MEDIA_URL }}{{ request.user.Avatar }}">
+                <div class="center" onclick="window.location.href='{% url 'usercenter' %}'">{{ request.user.username }}</div>
+                <div class="logout" onclick="window.location.href='{% url 'login' %}'">退出登录</div>
+            </div>
+        {% endif %}
+
+    </div>
+
+    <!-- 搜索栏和logo -->
+    <div class="header">
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" style="height: 100px; width: 140px; cursor: pointer" onclick="window.location.href='{% url 'index' %}'">
+        </div>
+        <div class="search_box fr">
+            <input id="search" class="search" type="text" placeholder="请输入搜索内容" value="{{ keywords }}">
+            <img class="search_btn fr" id="jsSearchBtn" onclick="search_click()" src="/static/images/search_btn.png"/>
+        </div>
+    </div>
+
+    <nav>
+        <div class="nav_1">
+            <div class="nav_content">
+                <ul class="nav_ul">
+                    <li {% if request.path == '/' %}class="nav_active"{% endif %} onclick="window.location.href='{% url 'index' %}'">
+                        <a>首页</a>
+                    </li>
+                    <li {% if request.path|slice:'8' == '/article' %}class="nav_active"{% endif %}>
+                        <a>文章</a>
+                    </li>
+{#                    <li>#}
+{#                        <a>留言板</a>#}
+{#                    </li>#}
+{#                    <li>#}
+{#                        <a>关于</a>#}
+{#                    </li>#}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {% block content %}
+    <!-- 内容 -->
+    <!-- 轮播图 -->
+    <div class="box">
+        <ul class="imgs">
+           <li><img src="{% static 'images/Carousel/1.png' %}"></li>
+           <li><img src="{% static 'images/Carousel/2.jpg' %}"></li>
+           <li><img src="{% static 'images/Carousel/3.png' %}"></li>
+           <li><img src="{% static 'images/Carousel/4.jpg' %}"></li>
+        </ul>
+        <ul class="img_index">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <!-- 文章列表 -->
+        <div class="article_content">
+        {% for article in articles %}
+            <div class="article_list" onclick="window.location.href='{% url 'article' article.id %}'" >
+                <li class="emgo2015 old-post-item">
+                <a name="WP-reset">
+                <time class="old-pli-date">
+                    <div class="old-pli-date-month">{{ article.Create_Time.month }}月</div>
+                    <div class="old-pli-date-day">{{ article.Create_Time.day }}th</div>
+                </time>
+                <img src="{{ MEDIA_URL }}{{ article.Cover_img }}" class="cover_img">
+    {#            <a class="old-pli-goto-full" title="Go to Full Post" target="_top" href="http://www.michaelgoldspinner.website/Emgo/me/posts/web/full/wp-reset.php"></a>#}
+                <div class="old-pli-text">
+                    <h4 class="old-pli-text-title">{{ article.Tittle }}</h4>
+{#                    <p class="old-pli-text-content">{{ article.Content|safe}}</p>#}
+                </div>
+                </a>
+                </li>
+            </div>
+        {% endfor %}
+        <div class="par">
+            <input type="hidden" name="cur_page" id="cur_page" value="{{ cur_page }}">
+            <input type="hidden" name="page_num" id="page_num" value="{{ page_num }}">
+            <ul class="ul_par">
+                <li class="li_par_bar par_un" id="pre_par">上一页</li>
+                {% for i in range %}
+                <li class="li_par par_un" id="li_par">{{ i }}</li>
+                {% endfor %}
+                <li class="li_par_bar par_un" id="last_par">下一页</li>
+            </ul>
+        </div>
+        </div>
+
+        <!-- 标签 -->
+        <div class="label_content">
+{#            <div class="article_cate">#}
+{#                <h3>文章分类</h3>#}
+{#                <ul>#}
+{#                    {% for item in category %}#}
+{#                    <li>{{ item.Category }}<span>({{ item.Article_Num }})</span></li>#}
+{#                    {% endfor %}#}
+{#                </ul>#}
+{#            </div>#}
+            <div class="article_cate">
+                <h3>最新文章</h3>
+                <ul>
+                    {% for item in new_article %}
+                        <li><a class="cate_title" href="{% url 'article' item.id %}">{{ item.Tittle }}</a></li>
+                    {% endfor %}
+                </ul>
+                <div style="clear: both"></div>
+            </div>
+            <div class="article_cate" style="margin-top: 50px">
+                <h3>最热文章</h3>
+                <ul>
+                    {% for item in hot_article %}
+                        <li><a class="cate_title" href="{% url 'article' item.id %}">{{ item.Tittle }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div style="clear: both"></div>
+        </div>
+    </div>
+    {% endblock %}
+
+</body>
+</html>

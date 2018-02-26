@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+{% load staticfiles %}
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>我的消息 - 个人中心</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/boot/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="apple-touch-icon-precomposed" href="{% static 'images/icon/icon.png' %}">
+    <link rel="shortcut icon" href="{% static 'images/icon/favicon.ico' %}">
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+</head>
+
+<body class="user-select">
+<section class="container-fluid">
+    <header>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> <span class="sr-only">切换导航</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                    <a class="navbar-brand" href="{% url 'index' %}">个人中心</a> </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{% url 'login' %}">{{ request.user.username }}</a></li>
+                        <li><a href="{% url 'login' %}" style="margin-right: 30px" onClick="if(!confirm('是否确认退出？'))return false;">退出登录</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="row">
+        <aside class="col-sm-3 col-md-2 col-lg-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li><a href="{% url 'usercenter' %}">我的信息</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li><a href="{% url 'myarticle' %}">我的文章</a></li>
+                <li class="active"><a href="{% url 'message' %}">我的消息</a></li>
+                <li><a href="{% url 'category' %}">我的分类</a></li>
+            </ul>
+        </aside>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-lg-10 col-md-offset-2 main" id="main">
+            <h1 class="page-header">管理 <span class="badge">4</span></h1>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th><span class="glyphicon glyphicon-file"></span> <span class="visible-lg">文章</span></th>
+                        <th><span class="glyphicon glyphicon-file"></span> <span class="visible-lg">内容</span></th>
+                        <th><span class="glyphicon glyphicon-file"></span> <span class="visible-lg">评论用户</span></th>
+                        <th><span class="glyphicon glyphicon-time"></span> <span class="visible-lg">日期</span></th>
+                        <th><span class="glyphicon glyphicon-pencil"></span> <span class="visible-lg">操作</span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in comment %}
+                        <tr>
+                            <td class="article-title">{{ item.Comment_Article.Tittle }}</td>
+                            <td class="article-title">{{ item.Content|slice:'25' }}</td>
+                            <td>{{ item.Comment_User.username }}</td>
+                            <td>{{ item.Create_Time }}</td>
+                            <td><a href="{% url 'article' item.Comment_Article.id %}">详细查看</a> <a rel="1" name="delete">删除</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <footer class="message_footer">
+{#                <nav>#}
+{#                    <ul class="pagination pagenav">#}
+{#                        <li class="disabled"><a aria-label="Previous"> <span aria-hidden="true">&laquo;</span> </a> </li>#}
+{#                        <li class="active"><a>1</a></li>#}
+{#                        <li class="disabled"><a aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a> </li>#}
+{#                    </ul>#}
+{#                </nav>#}
+            </footer>
+        </div>
+    </div>
+</section>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/admin-scripts.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script>
+    $(function () {
+        $("#main table tbody tr td a").click(function () {
+            var id = $(this).attr("rel"); //对应id
+            if ($(this).attr("name") === "delete") {
+                if (window.confirm("此操作不可逆，是否确认？")) {
+                    $.ajax({
+                        type: "POST",
+                        url: "{% url 'message' %}",
+                        data: {'id': id},
+                        cache: false, //不缓存此页面
+                        beforeSend: function (xhr, settings) {
+                            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                        },
+                        success: function (data) {
+                            window.location.reload();
+                        }
+                    });
+                };
+            };
+        });
+    });
+</script>
+</body>
+</html>

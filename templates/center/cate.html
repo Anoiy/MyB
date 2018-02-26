@@ -1,0 +1,31 @@
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" >分类信息</h4>
+        </div>
+        <div class="modal-body">
+            <table class="table" style="margin-bottom:0px;">
+                <thead>
+                <tr>
+                    <th><span class="glyphicon glyphicon-file"></span> <span class="visible-lg">文章</span></th>
+                    <th><span class="glyphicon glyphicon-time"></span> <span class="visible-lg">创建时间</span></th>
+                    <th><span class="glyphicon glyphicon-pencil"></span> <span class="visible-lg">操作</span></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for article in articles %}
+                    <tr>
+                        <td>{{ article.Tittle }}</td>
+                        <td>{{ article.Create_Time }}</td>
+                        <td><a href="{% url 'update' article.id %}">修改文章分类</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr></tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+{% extends 'index.html' %}
+{% load staticfiles %}
+
+
+{% block title %} {{ keywords }} --- 搜索结果 {% endblock %}
+
+{% block link %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/search.css' %}">
+{% endblock %}
+
+{% block content %}
+<div style="margin: 10px calc((100% - 850px)/2)">
+    {% for article in articles %}
+        <div class="article_list" onclick="window.location.href='{% url 'article' article.id %}'" >
+            <li class="emgo2015 old-post-item">
+                <a name="WP-reset">
+                    <time class="old-pli-date">
+                        <div class="old-pli-date-month">{{ article.Create_Time.month }}月</div>
+                        <div class="old-pli-date-day">{{ article.Create_Time.day }}th</div>
+                    </time>
+                    <img src="{{ MEDIA_URL }}{{ article.Cover_img }}" class="cover_img">
+                    {#            <a class="old-pli-goto-full" title="Go to Full Post" target="_top" href="http://www.michaelgoldspinner.website/Emgo/me/posts/web/full/wp-reset.php"></a>#}
+                    <div class="old-pli-text">
+                        <h4 class="old-pli-text-title">{{ article.Tittle }}</h4>
+                        {#                    <p class="old-pli-text-content">{{ article.Content|safe}}</p>#}
+                    </div>
+                </a>
+            </li>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

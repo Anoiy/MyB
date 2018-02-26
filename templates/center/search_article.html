@@ -1,0 +1,18 @@
+<thead>
+<tr>
+    <th><span class="glyphicon glyphicon-file"></span> <span class="visible-lg">标题</span></th>
+    <th class="hidden-sm"><span class="glyphicon glyphicon-tag"></span> <span class="visible-lg">分类</span></th>
+    <th><span class="glyphicon glyphicon-time"></span> <span class="visible-lg">日期</span></th>
+    <th><span class="glyphicon glyphicon-pencil"></span> <span class="visible-lg">操作</span></th>
+</tr>
+</thead>
+<tbody>
+{% for article in articles %}
+    <tr>
+        <td class="article-title">{{ article.Tittle }}</td>
+        <td class="hidden-sm">{{ article.Article_Category.Category }}</td>
+        <td>{{ article.Create_Time }}</td>
+        <td><a href="{% url 'update' article.id %}">修改</a> <a rel="{{ article.id }}">删除</a></td>
+    </tr>
+{% endfor %}
+</tbody>

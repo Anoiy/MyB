@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-CN">
+{% load staticfiles %}
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>写文章 - 个人中心</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/boot/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="apple-touch-icon-precomposed" href="{% static 'images/icon/icon.png' %}">
+    <link rel="shortcut icon" href="{% static 'images/icon/favicon.ico' %}">
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="https://cdn.ckeditor.com/4.8.0/standard/ckeditor.js" ></script>
+</head>
+
+<body class="user-select">
+<section class="container-fluid">
+    <header>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> <span class="sr-only">切换导航</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                    <a class="navbar-brand" href="{% url 'index' %}">个人中心</a> </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{% url 'login' %}">{{ request.user.username }}</a></li>
+                        <li><a href="{% url 'login' %}" style="margin-right: 30px" onClick="if(!confirm('是否确认退出？'))return false;">退出登录</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="row">
+        <aside class="col-sm-3 col-md-2 col-lg-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li><a href="{% url 'usercenter' %}">我的消息</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li class="active"><a href="{% url 'myarticle' %}">我的文章</a></li>
+                <li><a href="{% url 'message' %}">我的消息</a></li>
+                <li><a href="{% url 'category' %}">我的分类</a></li>
+            </ul>
+        </aside>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-lg-10 col-md-offset-2 main" id="main">
+            <div class="row">
+                <form action="{% url 'add' %}" method="post" class="add-article-form" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="col-md-9">
+                        <h1 class="page-header">撰写新文章</h1>
+                        <div class="form-group">
+                            <h2 class="add-article-box-title"><span>标题</span></h2>
+                            <label for="article-title" class="sr-only">标题</label>
+                            <input type="text" id="article-title" name="title" class="form-control" placeholder="在此处输入标题" required autofocus autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="article-content" class="sr-only">内容</label>
+                        </div>
+                        <div class="add-article-box">
+                            <h2 class="add-article-box-title"><span>内容</span></h2>
+                            <div class="add-article-box-content">
+                                <textarea class="form-control" name="editor1" id="editor1" autocomplete="off"></textarea>
+                                <script>
+                                    CKEDITOR.replace('editor1')
+                                </script>
+                                <span class="prompt-text">填写你的博客文章内容</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <h1 class="page-header">操作</h1>
+                        <div class="add-article-box">
+                            <h2 class="add-article-box-title"><span>分类</span></h2>
+                            <div class="add-article-box-content">
+                                <ul class="category-list">
+                                    {% for item in category %}
+                                        <li>
+                                            <label>
+                                                <input name="category" type="radio" value="{{ item.id }}">
+                                                {{ item.Category }}
+                                            </label>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="add-article-box">
+                            <h2 class="add-article-box-title"><span>标签</span></h2>
+                            <div class="add-article-box-content">
+                                <input type="text" class="form-control" placeholder="输入新标签" name="tags" autocomplete="off">
+                                <span class="prompt-text">多个标签请用英文逗号,隔开</span> </div>
+                        </div>
+                        <div class="add-article-box">
+                            <h2 class="add-article-box-title"><span>标题图片</span></h2>
+                            <div class="add-article-box-content">
+                                <input type="file" name="cover_img" required/>
+                            </div>
+                        </div>
+                        <div class="add-article-box">
+                            <h2 class="add-article-box-title"><span>发布</span></h2>
+                            <div class="add-article-box-content">
+                                <p><label>状态：</label><span class="article-status-display">未发布</span></p>
+                                <p><label>发布于：</label><span class="article-time-display"><input style="border: none;" type="text" name="time" value="{{ now }}" /></span></p>
+                            </div>
+                            <div class="add-article-box-footer">
+                                <button class="btn btn-primary" type="submit" name="submit" id="submit">发布</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/admin-scripts.js' %}"></script>
+<script>
+{#    $(function () {#}
+{#        $('#submit').on('click', function () {#}
+{#            if (!$('#editor1').val()) {#}
+{#                alert('请填写内容');#}
+{#                return false;#}
+{#            }#}
+{#        })#}
+{#    })#}
+</script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>CKEditor</title>
+	</head>
+	<body>
+        <input type="text" id="qqq">
+        <input type="text" id="bbb">
+	</body>
+    <script src="/static/js/jquery.min.js" type="text/javascript"></script>
+<script>
+    $(function () {
+        $('#qqq').on('input propertychange', function () {
+            var a = $('#qqq').val();
+            $('#bbb').val(a + 'aaa');
+        });
+
+        $('#bbb').on('input propertychange', function () {
+            var a = $('#qqq').val();
+            $('#bbb').val(a + 'aaa');
+        })
+    })
+</script>
+</html>

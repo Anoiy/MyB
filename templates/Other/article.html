@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh-CN">
+{% load staticfiles %}
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>我的文章 - 个人中心</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/boot/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="apple-touch-icon-precomposed" href="{% static 'images/icon/icon.png' %}">
+    <link rel="shortcut icon" href="{% static 'images/icon/favicon.ico' %}">
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+</head>
+
+<body class="user-select">
+<section class="container-fluid">
+    <header>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> <span class="sr-only">切换导航</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                    <a class="navbar-brand" href="{% url 'index' %}">个人中心</a> </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{% url 'login' %}">{{ request.user.username }}</a></li>
+                        <li><a href="{% url 'login' %}" style="margin-right: 30px" onClick="if(!confirm('是否确认退出？'))return false;">退出登录</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="row">
+        <aside class="col-sm-3 col-md-2 col-lg-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li><a href="{% url 'othercenter' author.id %}">我的信息</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li class="active"><a href="{% url 'othercenter' author.id %}">我的文章</a></li>
+                <li><a href="{% url 'othermessage' author.id %}">我的消息</a></li>
+            </ul>
+        </aside>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-lg-10 col-md-offset-2 main" id="main">
+            <form action="/Article/checkAll" method="post" >
+                {% csrf_token %}
+                <h1 class="page-header">管理 <span class="badge">7</span></h1>
+                <div class="table-responsive">
+                    <div class="input-group">
+                        <input type="text" name="key" id="key" class="form-control" style="width: 300px; margin: 10px 800px" autocomplete="off" placeholder="输入关键字搜索文章" maxlength="15">
+                    </div>
+                    <table id="article_table" class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th><span class="glyphicon glyphicon-file"></span> <span class="visible-lg">标题</span></th>
+                            <th class="hidden-sm"><span class="glyphicon glyphicon-tag"></span> <span class="visible-lg">分类</span></th>
+                            <th><span class="glyphicon glyphicon-time"></span> <span class="visible-lg">日期</span></th>
+                            <th><span class="glyphicon glyphicon-pencil"></span> <span class="visible-lg">操作</span></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for article in articles %}
+                            <tr>
+                                <td class="article-title">{{ article.Tittle }}</td>
+                                <td class="hidden-sm">{{ article.Article_Category.Category }}</td>
+                                <td>{{ article.Create_Time }}</td>
+                                <td><a href="{% url 'article' article.id %}">查看</a>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <footer class="message_footer">
+{#                    <nav>#}
+{#                        <ul class="pagination pagenav">#}
+{#                            <li class="disabled"><a aria-label="Previous"> <span aria-hidden="true">&laquo;</span> </a> </li>#}
+{#                            <li class="active"><a href="#">1</a></li>#}
+{#                            <li><a href="#">2</a></li>#}
+{#                            <li><a href="#">3</a></li>#}
+{#                            <li><a href="#">4</a></li>#}
+{#                            <li><a href="#">5</a></li>#}
+{#                            <li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a> </li>#}
+{#                        </ul>#}
+{#                    </nav>#}
+                </footer>
+            </form>
+        </div>
+    </div>
+</section>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/admin-scripts.js' %}"></script>
+<script>
+    //是否确认删除
+    $(function(){
+        $("#main table tbody tr td a").click(function(){
+            var id = $(this).attr('rel');
+            if (event.srcElement.outerText == "删除")
+            {
+                if(window.confirm("此操作不可逆，是否确认？"))
+                {
+                    $.ajax({
+                        type: "POST",
+                        url: "{% url 'myarticle' %}",
+                        data: {"article_id": id},
+                        cache: false, //不缓存此页面
+                        beforeSend: function (xhr, settings) {
+                            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                        },
+                        success: function (data) {
+                            $('#article_table').html(data)
+                        }
+                    });
+                }
+            }
+        });
+        $('#key').on('input propertychange', function () {
+            var keyword = $('#key').val();
+            $.ajax({
+                type: "POST",
+                url: "{% url 'search_article' %}",
+                data: {'keyword': keyword},
+                cache: false, //不缓存此页面
+                beforeSend: function (xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                },
+                success: function (data) {
+                    $('#article_table').html(data)
+                }
+            });
+        })
+    });
+</script>
+</body>
+</html>
