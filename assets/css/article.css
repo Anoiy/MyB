@@ -1,0 +1,178 @@
+.article_content {
+    width: 1200px;
+    margin: 10px auto;
+    position: relative;
+}
+
+.art_cont {
+    width: 850px;
+    /*background: rgba(34, 34, 34, 0.9);*/
+    padding-left: 30px;
+    float: left;
+}
+
+.art_title {
+    position: relative;
+    width: 800px;
+    height: 128px;
+    margin: 0;
+    border-bottom: solid gray;
+    color: black;
+}
+
+.title {
+    width: 700px;
+    height: 60px;
+    position: relative;
+    margin: 0;
+    text-align: left;
+    line-height: 60px;
+    font-size: xx-large;
+    float: left;
+    color: black;
+}
+
+.art_other {
+    width: 700px;
+    height: 30px;
+    float: left;
+    position: relative;
+    margin: 0;
+    line-height: 30px;
+    font-size: 12px;
+    color: #999999;
+    font-weight: 100;
+    border-top: solid #e5e5e5;
+}
+
+.content {
+    width: 800px;
+    position: relative;
+    margin: 15px 0;
+}
+
+.comment {
+    position: relative;
+    width: 800px;
+    border-top: solid #e5e9ef;
+}
+
+.comment_border {
+    margin-top: 20px;
+    height: 100px;
+    position: relative;
+    border-bottom: solid #e5e9ef;
+}
+
+.comment_input {
+    width: 710px;
+    height: 100px;
+    float: left;
+}
+
+.comment_button {
+    height: 75px;
+    width: 75px;
+    float: left;
+    margin-left: 15px;
+}
+
+.btn-block {
+    height: 100%;
+    color: white;
+    padding: 0;
+    background-color: #00a1d6;
+    border: none;
+}
+
+.comt {
+    width: 800px;
+    height: 100px;
+    margin-top: 20px;
+    background-color: #cecece;
+}
+
+.user_modal {
+    width: 300px;
+    float: left;
+}
+
+.user_info {
+    width: 280px;
+    height: 400px;
+    margin: 10px auto;
+    border: solid 1px #cccccc;
+}
+
+.user_avatar {
+    width: 150px;
+    height: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+}
+
+.avatar_img {
+    width: 140px;
+    height: 140px;
+}
+
+.user_name {
+    width: 150px;
+    height: 30px;
+    margin: 10px auto;
+    text-align: center;
+    color: #666;
+    font: 16px/20px 'microsoft yahei';
+}
+
+.user_info_num {
+    width: 280px;
+    height: 60px;
+    margin-top: 80px;
+    font-family: 'microsoft yahei';
+    text-align: center;
+}
+
+.user_article {
+    width: 280px;
+    _height: 40px;
+    margin: 10px auto;
+    border: solid 1px #cccccc;
+}
+
+.user_article h4{
+    margin: 20px 15px;
+}
+
+.new_article {
+    width: 240px;
+    height: 10px;
+    margin-left: 30px;
+}
+
+.for_cont {
+    width: 230px;
+    float: left;
+    margin-top: 5px;
+    color: #757a7e;
+}
+
+.new_article span a {
+    color: #757a7e;
+    text-decoration: none;
+}
+
+.new_article span a:hover {
+    color: red;
+    cursor: pointer;
+}
+
+.clearfloat {
+    clear: both;
+    height: 10px;
+}
+
+.jump {
+    cursor: pointer;
+}

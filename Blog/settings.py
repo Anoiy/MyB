@@ -25,9 +25,9 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
 SECRET_KEY = 'ltkqb2_v^@(6w-4sv5yqr@6tv=)i(f4mn5qbq8727sdhz56%tw'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.acgwxz.com', '127.0.0.1', 'localhost']
 AUTH_USER_MODEL = 'users.UserProfile'
 
 
@@ -91,7 +91,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'blog',
         'USER': 'root',
-        'PASSWORD': 'wangxunze',
+        'PASSWORD': 'wangxunze000',
         'HOST': '127.0.0.1'
     }
 }

@@ -1,0 +1,145 @@
+.cate_article {
+    width: 850px;
+    height: 400px;
+    float: left;
+}
+
+.article_list {
+    width: 800px;
+	padding-top: 10px;
+	padding-left: 10px;
+	border-top: solid 1px #999999;
+	margin-top: 20px;
+}
+
+.cover_img {
+    width: 80px;
+    height: 80px;
+    float: left;
+    margin: 10px 10px;
+}
+
+.emgo2015.old-post-item {
+	cursor: pointer;
+	transition: background-color 1.5s, border 0.5s;
+	display: inline-block;
+	list-style: none;
+	overflow: visible;
+	border-top: solid 1px transparent;
+	border-right: solid 1px transparent;
+	border-bottom: solid 1px transparent;
+	min-width: 600px;
+	width: 100%;
+	height: auto;
+	margin: -5px 5px;
+}
+
+.old-post-item:hover {
+	/*border-right: solid 1px black;*/
+}
+
+.old-post-item:hover .old-pli-date {
+	background-color: #3a3a3a;
+	color: white;
+}
+
+.old-post-item a {
+	cursor: pointer;
+	display: block;
+	overflow: auto;
+}
+
+.old-post-item time.old-pli-date {
+	transition: background-color 0.25s, color 0.25s;
+	float: left;
+	clear: right;
+	text-align: center;
+	border-right: solid 1px black;
+	width: 80px;
+	min-height: 100px;
+	padding: 0.5em;
+}
+
+.old-post-item time.old-pli-date .old-pli-date-month {
+	font-size: 35px;
+}
+
+.old-pli-date-day{
+	font-size: 15px;
+}
+
+.old-post-item .old-pli-text {
+	float: left;
+	width: 70%;
+	margin-left: 5px;
+	padding: 0.5em;
+}
+
+.old-post-item h4.old-pli-text-title {
+	font-family: Giorgio;
+	font-size: 20pt;
+	font-weight: bold;
+	width: 70%;
+	margin: 0;
+}
+
+.old-post-item p.old-pli-text-content {
+	overflow: hidden;
+	font-family: Caviar Dreams;
+	font-size: 10pt;
+	margin: 5px 0;
+}
+
+/*@-webkit-keyframes goto*/
+	/*0%*/
+		/*transform: translateX(0px)*/
+	/*50%*/
+		/*transform: translateX(10px)*/
+	/*100%*/
+		/*transform: translateX(0px)*/
+/*@-moz-keyframes goto {*/
+/*0% transform: translateX(0 px) 50 % transform: translateX(10 px) 100 % transform: translateX(0 px);*/
+/*}*/
+/*@keyframes goto {*/
+/*0% transform: translateX(0 px) 50 % transform: translateX(10 px) 100 % transform: translateX(0 px);*/
+/*}*/
+.old-pli-goto-full {
+	transition: opacity 0.5s;
+	transition-delay: 0.2s;
+	position: relative;
+	display: block;
+	opacity: 0;
+	background-repeat: none;
+	background-image: url(http://www.michaelgoldspinner.website/images/icons/goto.png);
+	background-size: cover;
+	background-position-x: 0px;
+	width: 50px;
+	height: 50px;
+	margin-bottom: -50px;
+	left: 105%;
+	top: -90px;
+	-webkit-animation: goto 0.5s ease infinite;
+	-moz-animation: goto 0.5s ease infinite;
+	animation: goto 0.5s ease infinite;
+}
+
+.old-post-item:hover .old-pli-goto-full {
+	opacity: 1;
+}
+
+.old-pli-text {
+    margin-top: 15px;
+}
+
+.article_info {
+	width: 110px;
+	height: 20px;
+	float: left;
+	margin-top: 80px;
+}
+
+.article_info span {
+	color: #999999;
+	font-family: "Microsoft YaHei";
+	font-size: 12px;
+}
